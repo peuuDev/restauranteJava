@@ -9,7 +9,13 @@ public class Restaurante {
     public Restaurante() {
     mesas = new ArrayList<>();
     reservas = new ArrayList<>();
-}
+    }   
+
+    public void verReservas(){
+        for(int i = 0; i < reservas.size(); i++){
+            System.out.println(reservas.get(i).listaReservas(i + 1));
+        }
+    }
 
     public void adicionarMesa(Mesa mesa){
         mesas.add(mesa);

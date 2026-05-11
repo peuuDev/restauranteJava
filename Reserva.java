@@ -21,6 +21,10 @@ public class Reserva {
         return horario;
     }
 
+    public String listaReservas(int indice){
+        return indice + "º Cliente: " + cliente.getNome() + "\nMesa: " + mesa.getNumeroMesa() + "\nHorário: " + this.getHorario() + "\n------------";
+    }
+
     public String toString(){
         return "Esta é a sua reserva:\nCliente: " + cliente.getNome() + "\nMesa: " + mesa.getNumeroMesa() + "\nHorário: " + this.getHorario();
     }
