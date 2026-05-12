@@ -22,10 +22,10 @@ public class Reserva {
     }
 
     public String listaReservas(int indice){
-        return indice + "º Cliente: " + cliente.getNome() + "\nMesa: " + mesa.getNumeroMesa() + "\nHorário: " + this.getHorario() + "\n------------";
+        return indice + "º Cliente: " + cliente.getNome() + " | Mesa: " + mesa.getNumeroMesa() + " | Horário: " + this.getHorario() + "\n-------------------------------------";
     }
 
     public String toString(){
-        return "Esta é a sua reserva:\nCliente: " + cliente.getNome() + "\nMesa: " + mesa.getNumeroMesa() + "\nHorário: " + this.getHorario();
+        return "Esta é a sua reserva:\nCliente: " + cliente.getNome() + " | Mesa: " + mesa.getNumeroMesa() + " | Horário: " + this.getHorario();
     }
 }

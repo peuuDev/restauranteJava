@@ -9,6 +9,14 @@ public class Mesa {
     this.reservada = false;
 }
 
+    public int getNumero() {
+        return numero;
+    }
+
+    public int getCapacidade() {
+        return capacidade;
+    }
+
     public int getNumeroMesa() {
         return numero;
     }
@@ -18,7 +26,7 @@ public class Mesa {
     }
 
     public String toString(){
-        return "Número da mesa: " + numero + "\nCapacidade: " + capacidade + "Reservada?: " + (this.reservada ? "Sim" : "Não");
+        return "Número da mesa: " + numero + " | Capacidade: " + capacidade + " pessoas | Reservada?: " + (this.reservada ? "Sim\n" : "Não\n");
     }
 
     public void reservar(){

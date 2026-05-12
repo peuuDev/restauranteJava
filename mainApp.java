@@ -5,6 +5,7 @@ public class mainApp{
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         Restaurante r = new Restaurante();
+        Cliente cliente = new Cliente("Pedro");
         int op;
         // Dados das mesas: [número, capacidade]
         int[][] mesasData = {
@@ -35,12 +36,16 @@ public class mainApp{
                     r.listarMesas();
                     break;
                 case 2:
-                    r.fazerReserva();
+                    r.fazerReserva(cliente);
                     break;
                 case 3:
                     break;
                 case 4:
-                    r.verReservas();
+                    if (r.reservas.isEmpty()) {
+                        System.out.println("Não há reservas");
+                    } else {
+                        r.verReservas();
+                    }
                 case 0:
                     break;
             }
