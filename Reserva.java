@@ -26,6 +26,6 @@ public class Reserva {
     }
 
     public String toString(){
-        return "Esta é a sua reserva:\nCliente: " + cliente.getNome() + " | Mesa: " + mesa.getNumeroMesa() + " | Horário: " + this.getHorario();
+        return "\nCliente: " + cliente.getNome() + " | Mesa: " + mesa.getNumeroMesa() + " | Horário: " + this.getHorario();
     }
 }

@@ -5,7 +5,6 @@ public class mainApp{
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         Restaurante r = new Restaurante();
-        Cliente cliente = new Cliente("Pedro");
         int op;
         // Dados das mesas: [número, capacidade]
         int[][] mesasData = {
@@ -21,7 +20,11 @@ public class mainApp{
             r.adicionarMesa(mesa);
         }
         
-        System.out.println("Bem-Vindo ao Restaurante Java!");
+        System.out.println("Bem-Vindo ao Restaurante Java!\nDigite o seu nome para começar!:");
+        String n = sc.nextLine();
+        String nUpper = n.substring(0,1).toUpperCase() + n.substring(1).toLowerCase(); //deixa apenas a primeira letra em upper e o resto em lower
+        Cliente cliente = new Cliente(nUpper);
+        System.out.println("Olá, " + nUpper + "!\n");
         do{
             System.out.println("Menu:" +
             "\n1 - Ver mesas" +
@@ -39,6 +42,7 @@ public class mainApp{
                     r.fazerReserva(cliente);
                     break;
                 case 3:
+                    r.cancelarReserva(cliente);
                     break;
                 case 4:
                     if (r.reservas.isEmpty()) {
