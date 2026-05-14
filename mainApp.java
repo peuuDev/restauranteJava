@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
@@ -9,23 +10,23 @@ public class mainApp{
         Random rdm = new Random();
         Restaurante r = new Restaurante();
         int op;
-        // Dados das mesas: [número, capacidade]
-        int[][] mesasDefault = {
-            {1, 4},
-            {2, 4},
-            {3, 8},
-            {4, 2},
-            {5, 6},
-            {6, 6},
-        };
-        
-        for (int[] data : mesasDefault) {
-            Mesa mesa = new Mesa(data[0], data[1]);
-            boolean reserva = rdm.nextBoolean();
-            if (reserva == true) {
-
-                mesa.reservar();
-            }
+        ArrayList<String> clientesDefault = new ArrayList<>();
+        clientesDefault.add("Adriana");
+        clientesDefault.add("Erick");
+        clientesDefault.add("Júlia");
+        clientesDefault.add("Eduardo");
+        clientesDefault.add("Fátima");
+        clientesDefault.add("João");
+        clientesDefault.add("Carol");
+        clientesDefault.add("Elton");
+        clientesDefault.add("Cris");
+        clientesDefault.add("Ricardo");
+        clientesDefault.add("Vinicius");
+        clientesDefault.add("Emily");
+        // Cria 12 mesas no total
+        for (int i = 1; i <= 12; i++) {
+            int capacidadeMesa = rdm.nextInt(6) * 2 + 2; // 2, 4, 6, 8, 10 ou 12
+            Mesa mesa = new Mesa(i, capacidadeMesa);
             r.adicionarMesa(mesa);
         }
 
@@ -33,18 +34,24 @@ public class mainApp{
             "20:00", "18:30", "11:45", "10:50", "17:15", "21:20", "18:45"
         };
 
-        String[] clientesDefault = {
-            "Adriana", "Erick", "Júlia"
-        };
-
-        for(int i = 0; i < clientesDefault.length; i++){
-            String nomeClienteDefault = clientesDefault[rdm.nextInt(clientesDefault.length)];
+        int numClientesDefault = rdm.nextInt(12) + 1; // de 1 a 12 clientes random
+        for (int i = 0; i < numClientesDefault; i++) {
+            int indexNome = rdm.nextInt(clientesDefault.size());
+            String nomeClienteDefault = clientesDefault.remove(indexNome);
             Cliente clienteDefault = new Cliente(nomeClienteDefault);
-            int capacidadeMesa = rdm.nextInt(6 * 2) + 1;      //Gera valores aleatorios, de numeros pares, a partir de 2 até 12
-            Mesa mesaDefault = new Mesa(r.mesas.size() + 1, capacidadeMesa);
-            mesaDefault.reservar();
-            r.adicionarMesa(mesaDefault);
             String horarioRandom = horariosDefault[rdm.nextInt(horariosDefault.length)];
+
+            ArrayList<Mesa> mesasDisponiveis = new ArrayList<>();
+            for (Mesa mesa : r.mesas) {
+                if (!mesa.isReservada()) {
+                    mesasDisponiveis.add(mesa);
+                }
+            }
+            if (mesasDisponiveis.isEmpty()) {
+                break;
+            }
+            Mesa mesaDefault = mesasDisponiveis.get(rdm.nextInt(mesasDisponiveis.size()));
+            mesaDefault.reservar();
             Reserva reserva = new Reserva(clienteDefault, mesaDefault, horarioRandom);
             r.reservas.add(reserva);
         }
