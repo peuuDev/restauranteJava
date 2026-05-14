@@ -14,35 +14,52 @@ public class Restaurante {
 
     public void cancelarReserva(Cliente cliente){
         ArrayList <Integer> indiceReserva = new ArrayList<>(); // lista pra armazenar os indices das reservas com o nome do cliente
-        int countReservas = 0; //reservas feitas no nome do cliente
-        int countIndex = 0;    //contador dos indices do array reservas 
+        int countReservas = 0; //reservas feitas no nome do cliente 
         for(Reserva reserva : reservas){
             if(reserva.getCliente() == cliente) {
-                System.out.println(countReservas++);
-                System.out.println(reserva.toString());
+                countReservas++;
                 indiceReserva.add(reservas.indexOf(reserva));
-                if(countIndex >= reservas.size()){
-                    if (countReservas == 1) {
-                        System.out.println("Esta é a sua única reserva. Deseja mesmo cancelar?\n[1] Sim | [0] Não");
-                        int op = sc.nextInt();
-                        switch (op) {
-                            case 1:
-                                reservas.get(indiceReserva.get(0));
-                                break;
-                            case 2:
-
-                                break;
-                            default:
-                                break;
-                        }
-                    }else if (countReservas > 1) {
-                        System.out.println("Essas são suas reservas.\nQual deseja cancelar?");
-                    }
-                }
-            }else if(countReservas == 0){
-                System.out.println("Não há reservas pra cancelar em seu nome.");
             }
-            countIndex++;
+        }
+        if (countReservas == 1) {
+            System.out.println("Esta é a sua única reserva. Deseja mesmo cancelar?\n[1] Sim | [0] Não");
+            int op = sc.nextInt();
+            switch (op) {
+                case 1:
+                    reservas.get(indiceReserva.get(0)).getMesa().liberar();
+                    reservas.remove((int)indiceReserva.get(0));
+                    System.out.println("Reserva cancelada");
+                    break;
+                    default:
+                        break;
+                    }
+                }else if (countReservas > 1) {
+                    System.out.println("Suas reservas:");
+                    verReservasCancel(cliente);
+                    System.out.println("Digite o número da mesa que deseja cancelar a reserva: ");
+                    int n = sc.nextInt();
+                    ArrayList<Reserva> reservasParaRemover = new ArrayList<>();
+                    for(Reserva reserva : reservas){
+                        if(reserva.getMesa().getNumero() == n && reserva.getCliente() == cliente){
+                            reservasParaRemover.add(reserva);
+                        }
+                    }//foram gerados dois foreach para que nao ocasionasse em ConcurrentModificationException(erro onde um item é removido do array enquanto o for esta sendo operado)
+                    for(Reserva reserva : reservasParaRemover){
+                        reserva.getMesa().liberar();
+                        reservas.remove(reserva);
+                        System.out.println("Reserva da mesa " + reserva.getMesa().getNumero() + " cancelada!");
+                    }
+                }else{
+                    System.out.println("Não há reservas pra cancelar em seu nome.");
+                }
+        indiceReserva.clear();
+    }
+
+    public void verReservasCancel(Cliente cliente){
+        for(Reserva reserva : reservas){
+            if(reserva.getCliente() == cliente){
+                System.out.println(reserva.toString());
+            }
         }
     }
 
@@ -95,6 +112,14 @@ public class Restaurante {
         if (count == 1) {
             mesaSelecionada = mesasDisponiveis.get(0);
             System.out.println("Esta é a sua mesa: " + mesaSelecionada.toString());
+            System.out.println("Que horário deseja marcar a sua reserva?(XX:XX): ");
+            sc.nextLine();
+            String h = sc.nextLine();
+            Reserva reserva = new Reserva(cliente, mesaSelecionada, h);
+            mesaSelecionada.reservar();  
+            reservas.add(reserva);
+            System.out.println("Tudo certo! Essa é sua reserva: " + reserva.toString());
+            mesasDisponiveis.clear();
         } else if (count > 1) {
             System.out.println("Mesas disponíveis: ");
             for(Mesa mesa : mesasDisponiveis){
@@ -109,17 +134,16 @@ public class Restaurante {
                     break;
                 }
             }
+            System.out.println("Que horário deseja marcar a sua reserva?(XX:XX): ");
+            String h = sc.nextLine();
+            Reserva reserva = new Reserva(cliente, mesaSelecionada, h);
+            mesaSelecionada.reservar();  // Marca como reservada
+            reservas.add(reserva);
+            System.out.println("Tudo certo! Essa é sua reserva: " + reserva.toString());
+            mesasDisponiveis.clear();
         } else {
             System.out.println("Nenhuma mesa disponível para " + q + " pessoas.");
             return;
         }
-        mesasDisponiveis.clear();
-        System.out.println("Que horário deseja marcar a sua reserva?(XX:XX): ");
-        String h = sc.nextLine();
-        Reserva reserva = new Reserva(cliente, mesaSelecionada, h);
-        mesaSelecionada.reservar();  // Marca como reservada
-        reservas.add(reserva);
-        System.out.println("Tudo certo! Essa é sua reserva: " + reserva.toString());
-        mesasDisponiveis.clear();
     }
 }

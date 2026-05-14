@@ -26,7 +26,7 @@ public class Mesa {
     }
 
     public String toString(){
-        return "Número da mesa: " + numero + " | Capacidade: " + capacidade + " pessoas | Reservada?: " + (this.reservada ? "Sim\n" : "Não\n");
+        return "Número da mesa: " + numero + " | Capacidade: " + capacidade + " pessoas | Reservada? " + (this.reservada ? "Sim\n" : "Não\n");
     }
 
     public void reservar(){
